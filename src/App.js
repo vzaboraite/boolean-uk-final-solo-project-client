@@ -28,7 +28,10 @@ function App() {
             path="signup"
             element={<SignupForm setAuthUser={setAuthUser} />}
           />
-          <Route path="login" element={<LoginForm />} />
+          <Route
+            path="login"
+            element={<LoginForm setAuthUser={setAuthUser} />}
+          />
           <Route path="lobby" element={authUser && <h1>Lobby</h1>} />
           <Route path="my-games" element={<h1>My Games</h1>} />
           <Route path="game/:id" element={<h1>Game</h1>} />

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router";
 import Header from "./pages/user/components/Header";
+import LoginForm from "./pages/user/LoginForm";
 import SignupForm from "./pages/user/SignupForm";
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
             path="signup"
             element={<SignupForm setAuthUser={setAuthUser} />}
           />
-          <Route path="login" element={<h1>Log In</h1>} />
+          <Route path="login" element={<LoginForm />} />
           <Route path="lobby" element={authUser && <h1>Lobby</h1>} />
           <Route path="my-games" element={<h1>My Games</h1>} />
           <Route path="game/:id" element={<h1>Game</h1>} />

@@ -31,11 +31,11 @@ export default function SignupForm() {
       body: JSON.stringify(userToCreate),
     };
 
-    fetch(`${process.env.REACT_APP_API_URL}/signup`)
+    fetch(`${process.env.REACT_APP_API_URL}/signup`, fetchOptions)
       .then((res) => {
         if (res.status === 400) {
           throw Error("Missing information!");
-        } else if (res.status !== 200) {
+        } else if (res.status !== 201) {
           throw Error(res);
         }
         return res.json();

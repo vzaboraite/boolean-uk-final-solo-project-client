@@ -25,7 +25,7 @@ export default function Lobby() {
       .then((data) => {
         console.log("INSIDE LOBBY");
         console.log({ GAMES: data });
-        const games = data.cleanGames;
+        const games = data.games;
         if (games) {
           setGames(games);
         }
@@ -40,12 +40,6 @@ export default function Lobby() {
           console.log({ game });
           return (
             <li key={index}>
-              <ul>
-                {game.users.map((user, index) => {
-                  console.log({ INSIDEMAP: user });
-                  return <li key={index}>{user.username}</li>;
-                })}
-              </ul>
               {game.id} -- {game.status}
             </li>
           );

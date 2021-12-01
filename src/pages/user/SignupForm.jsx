@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
-export default function SignupForm() {
+export default function SignupForm({ setAuthUser }) {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -17,7 +20,6 @@ export default function SignupForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Submitted");
 
     const userToCreate = {
       ...user,
@@ -40,7 +42,16 @@ export default function SignupForm() {
         }
         return res.json();
       })
-      .then(console.log)
+      .then((data) => {
+        const { token } = data;
+        if (token) {
+          setAuthUser(token);
+
+          localStorage.setItem("token", token);
+
+          navigate("/lobby");
+        }
+      })
       .catch((error) => error);
   };
 

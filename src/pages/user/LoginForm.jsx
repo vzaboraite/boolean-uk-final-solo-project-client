@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { apiUrl } from "../../utils/constants";
 
 export default function LoginForm({ setAuthUser }) {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function LoginForm({ setAuthUser }) {
       body: JSON.stringify({ ...user }),
     };
 
-    fetch(`${process.env.REACT_APP_API_URL}/login`, fetchOptions)
+    fetch(`${apiUrl}/login`, fetchOptions)
       .then((res) => {
         if (res.status === 401) {
           throw Error("Not Authorized!");

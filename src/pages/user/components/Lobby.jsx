@@ -18,7 +18,7 @@ export default function Lobby() {
         if (res.status === 401) {
           throw Error("Not Authorized");
         } else if (res.status !== 200) {
-          throw Error(res);
+          throw Error("[500 ERROR] Internal Server Error");
         }
         return res.json();
       })
@@ -30,7 +30,9 @@ export default function Lobby() {
           setGames(games);
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   return (

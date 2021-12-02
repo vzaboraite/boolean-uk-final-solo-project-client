@@ -10,8 +10,6 @@ export default function LoginForm({ setAuthUser }) {
   });
 
   const handleInputChange = (event) => {
-    console.log(event.target.name, event.target.value);
-
     const inputName = event.target.name;
     const inputValue = event.target.value;
 
@@ -20,9 +18,6 @@ export default function LoginForm({ setAuthUser }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const token = localStorage.getItem("token");
-    console.log("Inside LOGIN form token: ", token);
 
     const fetchOptions = {
       method: "POST",
@@ -37,7 +32,7 @@ export default function LoginForm({ setAuthUser }) {
         if (res.status === 401) {
           throw Error("Not Authorized!");
         } else if (res.status !== 200) {
-          throw Error(res);
+          throw Error("[500 ERROR] Internal Server Error");
         }
         return res.json();
       })
@@ -53,10 +48,11 @@ export default function LoginForm({ setAuthUser }) {
           navigate("/lobby");
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  console.log({ user });
   return (
     <main>
       <form onSubmit={handleSubmit}>

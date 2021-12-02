@@ -10,8 +10,6 @@ export default function SignupForm({ setAuthUser }) {
   });
 
   const handleInputChange = (event) => {
-    console.log(event.target.name, event.target.value);
-
     const inputName = event.target.name;
     const inputValue = event.target.value;
 
@@ -38,7 +36,7 @@ export default function SignupForm({ setAuthUser }) {
         if (res.status === 400) {
           throw Error("Missing information!");
         } else if (res.status !== 201) {
-          throw Error(res);
+          throw Error("[500 ERROR] Internal Server Error");
         }
         return res.json();
       })
@@ -52,10 +50,11 @@ export default function SignupForm({ setAuthUser }) {
           navigate("/lobby");
         }
       })
-      .catch((error) => error);
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  console.log({ user });
   return (
     <main>
       <form onSubmit={handleSubmit}>

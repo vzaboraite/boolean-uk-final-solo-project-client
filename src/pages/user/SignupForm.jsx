@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { apiUrl } from "../../utils/constants";
 
 export default function SignupForm({ setAuthUser }) {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function SignupForm({ setAuthUser }) {
       body: JSON.stringify(userToCreate),
     };
 
-    fetch(`${process.env.REACT_APP_API_URL}/signup`, fetchOptions)
+    fetch(`${apiUrl}/signup`, fetchOptions)
       .then((res) => {
         if (res.status === 400) {
           throw Error("Missing information!");

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+const { apiUrl } = require("../../../utils/constants");
 
 export default function Lobby() {
   const [games, setGames] = useState([]);
@@ -13,7 +14,7 @@ export default function Lobby() {
       },
     };
 
-    fetch(`${process.env.REACT_APP_API_URL}/games`, fetchOptions)
+    fetch(`${apiUrl}/games`, fetchOptions)
       .then((res) => {
         if (res.status === 401) {
           throw Error("Not Authorized");

@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router";
 import Header from "./pages/user/components/Header";
@@ -10,11 +11,12 @@ function App() {
 
   useEffect(() => {
     if (authUser) return;
-
     const token = localStorage.getItem("token");
 
     if (token) {
-      setAuthUser(token);
+      const user = jwtDecode(token);
+
+      setAuthUser(user);
     }
   }, [authUser]);
 

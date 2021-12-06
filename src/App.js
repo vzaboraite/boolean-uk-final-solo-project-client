@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router";
 import Header from "./pages/user/components/Header";
 import Lobby from "./pages/user/components/Lobby";
+import Game from "./pages/user/Game";
 import LoginForm from "./pages/user/LoginForm";
 import SignupForm from "./pages/user/SignupForm";
 
@@ -37,7 +38,7 @@ function App() {
           />
           <Route path="lobby" element={authUser && <Lobby user={authUser} />} />
           <Route path="my-games" element={<h1>My Games</h1>} />
-          <Route path="game/:id" element={<h1>Game</h1>} />
+          <Route path="game/:id" element={authUser && <Game />} />
         </Route>
       </Routes>
     </>

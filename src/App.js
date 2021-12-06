@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router";
 import Header from "./pages/user/components/Header";
@@ -10,11 +11,12 @@ function App() {
 
   useEffect(() => {
     if (authUser) return;
-
     const token = localStorage.getItem("token");
 
     if (token) {
-      setAuthUser(token);
+      const user = jwtDecode(token);
+
+      setAuthUser(user);
     }
   }, [authUser]);
 
@@ -33,7 +35,7 @@ function App() {
             path="login"
             element={<LoginForm setAuthUser={setAuthUser} />}
           />
-          <Route path="lobby" element={authUser && <Lobby />} />
+          <Route path="lobby" element={authUser && <Lobby user={authUser} />} />
           <Route path="my-games" element={<h1>My Games</h1>} />
           <Route path="game/:id" element={<h1>Game</h1>} />
         </Route>

@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { apiUrl } from "../../utils/constants";
@@ -42,7 +43,8 @@ export default function LoginForm({ setAuthUser }) {
         const { token } = data;
 
         if (token) {
-          setAuthUser(token);
+          const user = jwtDecode(token);
+          setAuthUser(user);
 
           localStorage.setItem("token", token);
 

@@ -9,9 +9,9 @@ export default function Lobby({ user }) {
 
   const userId = user.id;
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
+  useEffect(() => {
     const fetchOptions = {
       method: "GET",
       headers: {
@@ -39,11 +39,9 @@ export default function Lobby({ user }) {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [token]);
 
   const handleJoinGame = (gameId) => {
-    const token = localStorage.getItem("token");
-
     const fetchOptions = {
       method: "PUT",
       headers: {

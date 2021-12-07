@@ -23,6 +23,8 @@ body {
 
 .board-square {
   border: 1px solid black;
+  display: grid;
+  place-items: center;
 }
 
 .sq-color__white {
@@ -31,4 +33,19 @@ body {
 
 .sq-color__grey {
   background-color: gray;
+}
+
+div.piece {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  color: white;
+}
+
+.piece__red {
+  background-color: rgb(128, 3, 3);
+}
+
+.piece__black {
+  background-color: rgb(22, 21, 21);
 }

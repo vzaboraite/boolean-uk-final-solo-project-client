@@ -13,7 +13,7 @@ export default function GameBoard() {
           (index + i) % 2 === 0 ? "sq-color__white" : "sq-color__grey"
         }`}
       >
-        {square}
+        {drawPiece(square)}
       </div>
     ));
 
@@ -21,8 +21,19 @@ export default function GameBoard() {
   }
 
   function buildBoard() {
-    return initialBoard.map((row, index) => buildRow(row, index));
+    const boardRows = initialBoard.map((row, index) => buildRow(row, index));
+    return <div className="board">{boardRows}</div>;
   }
 
-  return <div className="board">{buildBoard()}</div>;
+  function drawPiece(square) {
+    return (
+      <div
+        className={`piece ${
+          square !== null && (square === "red" ? "piece__red" : "piece__black")
+        }`}
+      ></div>
+    );
+  }
+
+  return <>{buildBoard()}</>;
 }

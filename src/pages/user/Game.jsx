@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react/cjs/react.development";
 import { apiUrl } from "../../utils/constants";
+import GameBoard from "./components/GameBoard";
 
 export default function Game() {
   const { id } = useParams();
@@ -48,6 +49,7 @@ export default function Game() {
         player 2 -
         {playerTwo ? playerTwo.username : "Waiting for second player..."}
       </div>
+      <GameBoard />
     </>
   );
 }

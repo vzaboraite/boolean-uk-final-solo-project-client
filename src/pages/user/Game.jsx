@@ -49,7 +49,7 @@ export default function Game() {
         player 2 -
         {playerTwo ? playerTwo.username : "Waiting for second player..."}
       </div>
-      <GameBoard />
+      <GameBoard players={currentGame.users} />
     </>
   );
 }

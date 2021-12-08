@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const initialBoard = [
   [null, "red", null, "red"],
@@ -6,9 +6,18 @@ const initialBoard = [
   [null, null, null, null],
   ["black", null, "black", null],
 ];
-export default function GameBoard() {
+export default function GameBoard({ players }) {
   const [board, setBoard] = useState(initialBoard);
   const [selectedPiece, setSelectedPiece] = useState(null);
+  const [gameStarted, setGameStarted] = useState(false);
+
+  useEffect(() => {
+    if (players.length === 2) {
+      setGameStarted(true);
+    } else {
+      setGameStarted(false);
+    }
+  }, [players]);
 
   function buildRow(row, index) {
     const rowSquares = row.map((square, i) => (
@@ -18,7 +27,7 @@ export default function GameBoard() {
           (index + i) % 2 === 0 ? "sq-color__white" : "sq-color__grey"
         }`}
         onClick={() => {
-          !square && selectedPiece && handleMove(index, i);
+          gameStarted && !square && selectedPiece && handleMove(index, i);
         }}
       >
         {square && drawPiece(square, index, i)}
@@ -44,7 +53,8 @@ export default function GameBoard() {
           square !== null && (square === "red" ? "piece__red" : "piece__black")
         }`}
         onClick={() => {
-          setSelectedPiece({ rowIndex, colIndex, color: square });
+          gameStarted &&
+            setSelectedPiece({ rowIndex, colIndex, color: square });
         }}
       ></div>
     );

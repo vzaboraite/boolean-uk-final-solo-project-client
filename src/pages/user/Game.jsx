@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useEffect, useState } from "react/cjs/react.development";
+import { useEffect, useState } from "react";
 import { apiUrl } from "../../utils/constants";
 import GameBoard from "./components/GameBoard";
 

@@ -12,11 +12,7 @@ export default function GameBoard({ players }) {
   const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
-    if (players.length === 2) {
-      setGameStarted(true);
-    } else {
-      setGameStarted(false);
-    }
+    setGameStarted(players.length === 2);
   }, [players]);
 
   function buildRow(row, index) {

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getValidMoves } from "../../../utils/game";
 
 const initialBoard = [
   [null, "red", null, "red"],
@@ -65,6 +66,16 @@ export default function GameBoard({ players }) {
 
   function handleMove(toRowIndex, toColIndex) {
     const { rowIndex: fromRowIndex, colIndex: fromColIndex } = selectedPiece;
+    const currentPosition = { fromRowIndex, fromColIndex };
+    const validMoves = getValidMoves(board, currentPosition, selectedPiece);
+
+    const isValid = validMoves.some(
+      (move) => move.toRowIndex === toRowIndex && move.toColIndex === toColIndex
+    );
+
+    if (!isValid) {
+      return;
+    }
 
     const updatedBoard = board.map((row, rowIndex) => {
       return row.map((square, colIndex) => {

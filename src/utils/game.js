@@ -25,9 +25,18 @@ function getValidMoves(board, currentPosition, selectedPiece) {
       });
     }
 
+    //  move up-right direction
     const rightMove = rowUp[fromColIndex + 1];
     console.log({ leftMove, rightMove });
+
+    if (rightMove === null) {
+      validMoves.push({
+        toRowIndex: fromRowIndex - 1,
+        toColIndex: fromColIndex + 1,
+      });
+    }
   }
+
   return validMoves;
 }
 

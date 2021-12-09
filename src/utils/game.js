@@ -68,22 +68,42 @@ function getValidMoves(board, currentPosition, selectedPiece) {
     }
 
     const leftMove = rowDown[fromColIndex - 1];
+    const leftCapture = board[fromRowIndex + 2]?.[fromColIndex - 2];
 
     if (leftMove === null) {
       validMoves.push({
         toRowIndex: fromRowIndex + 1,
         toColIndex: fromColIndex - 1,
       });
+    } else if (leftMove === "black" && leftCapture === null) {
+      validMoves.push({
+        toRowIndex: fromRowIndex + 2,
+        toColIndex: fromColIndex - 2,
+        capturePiece: {
+          rowIndex: fromRowIndex + 1,
+          colIndex: fromColIndex - 1,
+        },
+      });
     }
 
     //  move down-right direction
     const rightMove = rowDown[fromColIndex + 1];
+    const rightCapture = board[fromRowIndex + 2]?.[fromColIndex + 2];
     console.log({ leftMove, rightMove });
 
     if (rightMove === null) {
       validMoves.push({
         toRowIndex: fromRowIndex + 1,
         toColIndex: fromColIndex + 1,
+      });
+    } else if (rightMove === "black" && rightCapture === null) {
+      validMoves.push({
+        toRowIndex: fromRowIndex + 2,
+        toColIndex: fromColIndex + 2,
+        capturePiece: {
+          rowIndex: fromRowIndex + 1,
+          colIndex: fromColIndex + 1,
+        },
       });
     }
   }

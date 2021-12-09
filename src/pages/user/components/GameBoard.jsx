@@ -7,6 +7,7 @@ const initialBoard = [
   [null, null, null, null],
   ["black", null, "black", null],
 ];
+
 export default function GameBoard({ players }) {
   const [board, setBoard] = useState(initialBoard);
   const [selectedPiece, setSelectedPiece] = useState(null);
@@ -69,11 +70,11 @@ export default function GameBoard({ players }) {
     const currentPosition = { fromRowIndex, fromColIndex };
     const validMoves = getValidMoves(board, currentPosition, selectedPiece);
 
-    const isValid = validMoves.some(
+    const foundMove = validMoves.find(
       (move) => move.toRowIndex === toRowIndex && move.toColIndex === toColIndex
     );
 
-    if (!isValid) {
+    if (!foundMove) {
       return;
     }
 
@@ -85,6 +86,14 @@ export default function GameBoard({ players }) {
 
         if (toRowIndex === rowIndex && toColIndex === colIndex) {
           return selectedPiece.color;
+        }
+
+        if (
+          foundMove.capturePiece &&
+          foundMove.capturePiece.rowIndex === rowIndex &&
+          foundMove.capturePiece.colIndex === colIndex
+        ) {
+          return null;
         }
 
         return square;

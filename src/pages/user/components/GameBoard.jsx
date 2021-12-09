@@ -16,19 +16,26 @@ export default function GameBoard({ players }) {
   }, [players]);
 
   function buildRow(row, index) {
-    const rowSquares = row.map((square, i) => (
-      <div
-        key={i}
-        className={`board-square ${
-          (index + i) % 2 === 0 ? "sq-color__white" : "sq-color__grey"
-        }`}
-        onClick={() => {
-          gameStarted && !square && selectedPiece && handleMove(index, i);
-        }}
-      >
-        {square && drawPiece(square, index, i)}
-      </div>
-    ));
+    const rowSquares = row.map((square, i) => {
+      const isWhiteSquare = (index + i) % 2 === 0;
+      return (
+        <div
+          key={i}
+          className={`board-square ${
+            isWhiteSquare ? "sq-color__white" : "sq-color__grey"
+          }`}
+          onClick={() => {
+            gameStarted &&
+              !square &&
+              selectedPiece &&
+              !isWhiteSquare &&
+              handleMove(index, i);
+          }}
+        >
+          {square && drawPiece(square, index, i)}
+        </div>
+      );
+    });
 
     return (
       <div key={index} className="row">

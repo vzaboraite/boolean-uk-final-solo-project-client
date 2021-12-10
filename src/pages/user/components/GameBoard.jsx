@@ -66,9 +66,10 @@ export default function GameBoard({ players }) {
   }
 
   function handleMove(toRowIndex, toColIndex) {
-    const { rowIndex: fromRowIndex, colIndex: fromColIndex } = selectedPiece;
-    const currentPosition = { fromRowIndex, fromColIndex };
-    const validMoves = getValidMoves(board, currentPosition, selectedPiece);
+    const fromRowIndex = selectedPiece.rowIndex;
+    const fromColIndex = selectedPiece.colIndex;
+
+    const validMoves = getValidMoves(board, selectedPiece);
 
     const foundMove = validMoves.find(
       (move) => move.toRowIndex === toRowIndex && move.toColIndex === toColIndex

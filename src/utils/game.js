@@ -29,12 +29,12 @@ function getValidMovesUpRight(board, selectedPiece) {
   const { rowIndex: fromRowIndex, colIndex: fromColIndex } = selectedPiece;
   const rowUp = board[fromRowIndex - 1];
 
-  const rightMove = rowUp[fromColIndex + 1];
-  const rightCapture = board[fromRowIndex - 2]?.[fromColIndex + 2];
-
   if (!rowUp) {
     return validMoves;
   }
+
+  const rightMove = rowUp[fromColIndex + 1];
+  const rightCapture = board[fromRowIndex - 2]?.[fromColIndex + 2];
 
   if (rightMove === null) {
     validMoves.push({
@@ -59,12 +59,12 @@ function getValidMovesUpLeft(board, selectedPiece) {
   const { rowIndex: fromRowIndex, colIndex: fromColIndex } = selectedPiece;
   const rowUp = board[fromRowIndex - 1];
 
-  const leftMove = rowUp[fromColIndex - 1];
-  const leftCapture = board[fromRowIndex - 2]?.[fromColIndex - 2];
-
   if (!rowUp) {
     return validMoves;
   }
+
+  const leftMove = rowUp[fromColIndex - 1];
+  const leftCapture = board[fromRowIndex - 2]?.[fromColIndex - 2];
 
   if (leftMove === null) {
     validMoves.push({

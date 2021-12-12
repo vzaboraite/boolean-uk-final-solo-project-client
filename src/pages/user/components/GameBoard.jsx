@@ -12,6 +12,7 @@ export default function GameBoard({ players }) {
   const [board, setBoard] = useState(initialBoard);
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
+  const [validMoves, setValidMoves] = useState(null);
 
   useEffect(() => {
     setGameStarted(players.length === 2);
@@ -27,11 +28,7 @@ export default function GameBoard({ players }) {
             isWhiteSquare ? "sq-color__white" : "sq-color__grey"
           }`}
           onClick={() => {
-            gameStarted &&
-              !square &&
-              selectedPiece &&
-              !isWhiteSquare &&
-              handleMove(index, i);
+            gameStarted && !square && selectedPiece && handleMove(index, i);
           }}
         >
           {square && drawPiece(square, index, i)}
@@ -57,12 +54,15 @@ export default function GameBoard({ players }) {
         className={`piece ${
           square !== null && (square === "red" ? "piece__red" : "piece__black")
         }`}
-        onClick={() => {
-          gameStarted &&
-            setSelectedPiece({ rowIndex, colIndex, color: square });
-        }}
+        onClick={() => handleClick({ rowIndex, colIndex, color: square })}
       ></div>
     );
+  }
+
+  function handleClick(pieceData) {
+    gameStarted &&
+      setSelectedPiece(pieceData) &&
+      setValidMoves(getValidMoves(board, pieceData));
   }
 
   function handleMove(toRowIndex, toColIndex) {

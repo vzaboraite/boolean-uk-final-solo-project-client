@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getValidMoves } from "../../../utils/game";
 
 const initialBoard = [
   [null, "red", null, "red"],
@@ -6,29 +7,34 @@ const initialBoard = [
   [null, null, null, null],
   ["black", null, "black", null],
 ];
+
 export default function GameBoard({ players }) {
   const [board, setBoard] = useState(initialBoard);
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
+  const [validMoves, setValidMoves] = useState(null);
 
   useEffect(() => {
     setGameStarted(players.length === 2);
   }, [players]);
 
   function buildRow(row, index) {
-    const rowSquares = row.map((square, i) => (
-      <div
-        key={i}
-        className={`board-square ${
-          (index + i) % 2 === 0 ? "sq-color__white" : "sq-color__grey"
-        }`}
-        onClick={() => {
-          gameStarted && !square && selectedPiece && handleMove(index, i);
-        }}
-      >
-        {square && drawPiece(square, index, i)}
-      </div>
-    ));
+    const rowSquares = row.map((square, i) => {
+      const isWhiteSquare = (index + i) % 2 === 0;
+      return (
+        <div
+          key={i}
+          className={`board-square ${
+            isWhiteSquare ? "sq-color__white" : "sq-color__grey"
+          }`}
+          onClick={() => {
+            gameStarted && !square && selectedPiece && handleMove(index, i);
+          }}
+        >
+          {square && drawPiece(square, index, i)}
+        </div>
+      );
+    });
 
     return (
       <div key={index} className="row">
@@ -48,16 +54,30 @@ export default function GameBoard({ players }) {
         className={`piece ${
           square !== null && (square === "red" ? "piece__red" : "piece__black")
         }`}
-        onClick={() => {
-          gameStarted &&
-            setSelectedPiece({ rowIndex, colIndex, color: square });
-        }}
+        onClick={() => handleClick({ rowIndex, colIndex, color: square })}
       ></div>
     );
   }
 
+  function handleClick(pieceData) {
+    gameStarted &&
+      setSelectedPiece(pieceData) &&
+      setValidMoves(getValidMoves(board, pieceData));
+  }
+
   function handleMove(toRowIndex, toColIndex) {
-    const { rowIndex: fromRowIndex, colIndex: fromColIndex } = selectedPiece;
+    const fromRowIndex = selectedPiece.rowIndex;
+    const fromColIndex = selectedPiece.colIndex;
+
+    const validMoves = getValidMoves(board, selectedPiece);
+
+    const foundMove = validMoves.find(
+      (move) => move.toRowIndex === toRowIndex && move.toColIndex === toColIndex
+    );
+
+    if (!foundMove) {
+      return;
+    }
 
     const updatedBoard = board.map((row, rowIndex) => {
       return row.map((square, colIndex) => {
@@ -67,6 +87,14 @@ export default function GameBoard({ players }) {
 
         if (toRowIndex === rowIndex && toColIndex === colIndex) {
           return selectedPiece.color;
+        }
+
+        if (
+          foundMove.capturePiece &&
+          foundMove.capturePiece.rowIndex === rowIndex &&
+          foundMove.capturePiece.colIndex === colIndex
+        ) {
+          return null;
         }
 
         return square;

@@ -44,10 +44,16 @@ export default function Game() {
 
   return (
     <>
-      <div>player 1 -{playerOne && playerOne.username}</div>
+      <div>
+        player 1 -
+        {playerOne &&
+          `${playerOne.username} - ${playerOne.color.toLowerCase()}`}
+      </div>
       <div>
         player 2 -
-        {playerTwo ? playerTwo.username : "Waiting for second player..."}
+        {playerTwo
+          ? `${playerTwo.username} - ${playerTwo.color.toLowerCase()}`
+          : "Waiting for second player..."}
       </div>
       <GameBoard players={currentGame.users} />
     </>

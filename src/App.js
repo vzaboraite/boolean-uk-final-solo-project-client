@@ -24,7 +24,7 @@ function App() {
   return (
     // TODO: replace h1 elements with components and pages
     <>
-      <Header authUser={authUser} />
+      <Header authUser={authUser} setAuthUser={setAuthUser} />
       <Routes>
         <Route path="/*">
           <Route index element={<h1>Home</h1>} />

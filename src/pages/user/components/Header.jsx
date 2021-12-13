@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 
-export default function Header({ authUser }) {
+export default function Header({ authUser, setAuthUser }) {
+  function handleLogout() {
+    localStorage.removeItem("token");
+    setAuthUser(null);
+  }
+
   return (
     <header>
       <nav>
@@ -29,7 +34,9 @@ export default function Header({ authUser }) {
                   <Link to="/my-games">My games</Link>
                 </li>
                 <li>
-                  <Link to="/">Log Out</Link>
+                  <Link to="/" onClick={handleLogout}>
+                    Log Out
+                  </Link>
                 </li>
               </div>
             </div>

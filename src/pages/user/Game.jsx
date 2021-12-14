@@ -55,7 +55,7 @@ export default function Game() {
           ? `${playerTwo.username} - ${playerTwo.color.toLowerCase()}`
           : "Waiting for second player..."}
       </div>
-      <GameBoard players={currentGame.users} />
+      <GameBoard players={currentGame.users} gameId={currentGame.id} />
     </>
   );
 }

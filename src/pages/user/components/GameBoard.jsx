@@ -12,7 +12,8 @@ export default function GameBoard({ players }) {
   const [board, setBoard] = useState(initialBoard);
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
-  const [validMoves, setValidMoves] = useState(null);
+  // derived state for valid moves
+  const validMoves = getValidMoves(board, selectedPiece);
 
   useEffect(() => {
     setGameStarted(players.length === 2);
@@ -60,16 +61,12 @@ export default function GameBoard({ players }) {
   }
 
   function handleClick(pieceData) {
-    gameStarted &&
-      setSelectedPiece(pieceData) &&
-      setValidMoves(getValidMoves(board, pieceData));
+    gameStarted && setSelectedPiece(pieceData);
   }
 
   function handleMove(toRowIndex, toColIndex) {
     const fromRowIndex = selectedPiece.rowIndex;
     const fromColIndex = selectedPiece.colIndex;
-
-    const validMoves = getValidMoves(board, selectedPiece);
 
     const foundMove = validMoves.find(
       (move) => move.toRowIndex === toRowIndex && move.toColIndex === toColIndex

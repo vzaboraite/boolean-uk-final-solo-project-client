@@ -1,6 +1,8 @@
 function getValidMoves(board, selectedPiece) {
   console.log({ board, selectedPiece });
-
+  if (!selectedPiece) {
+    return [];
+  }
   switch (selectedPiece.color) {
     case "red":
       return getValidMovesDown(board, selectedPiece);

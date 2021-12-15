@@ -3,11 +3,27 @@ import { useEffect, useState } from "react";
 import { apiUrl } from "../../utils/constants";
 import GameBoard from "./components/GameBoard";
 
-export default function Game() {
+export default function Game({ user }) {
+  console.log("Inside Game: ", { user });
   const { id } = useParams();
   const token = localStorage.getItem("token");
 
   const [currentGame, setCurrentGame] = useState(null);
+  const [playerColor, setPlayerColor] = useState(null);
+  console.log({ currentGame });
+
+  useEffect(() => {
+    if (!currentGame) {
+      return;
+    }
+
+    const player = currentGame.users.find((player) => player.id === user.id);
+
+    if (player) {
+      setPlayerColor(player.color.toLowerCase());
+    }
+  }, [currentGame, user]);
+  console.log({ playerColor });
 
   useEffect(() => {
     fetch(`${apiUrl}/games/${id}`, {
@@ -55,7 +71,11 @@ export default function Game() {
           ? `${playerTwo.username} - ${playerTwo.color.toLowerCase()}`
           : "Waiting for second player..."}
       </div>
-      <GameBoard players={currentGame.users} gameId={currentGame.id} />
+      <GameBoard
+        players={currentGame.users}
+        gameId={currentGame.id}
+        playerColor={playerColor}
+      />
     </>
   );
 }

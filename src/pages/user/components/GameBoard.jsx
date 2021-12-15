@@ -9,11 +9,13 @@ const initialBoard = [
   ["black", null, "black", null],
 ];
 
-export default function GameBoard({ players, gameId }) {
+export default function GameBoard({ players, gameId, playerColor }) {
+  console.log("Inside GameBoard: ", { players });
   const token = localStorage.getItem("token");
   const [board, setBoard] = useState(initialBoard);
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
+
   // derived state for valid moves
   const validMoves = getValidMoves(board, selectedPiece);
 
@@ -89,7 +91,9 @@ export default function GameBoard({ players, gameId }) {
   }
 
   function handleClick(pieceData) {
-    gameStarted && setSelectedPiece(pieceData);
+    gameStarted &&
+      playerColor === pieceData.color &&
+      setSelectedPiece(pieceData);
   }
 
   function handleMove(toRowIndex, toColIndex) {

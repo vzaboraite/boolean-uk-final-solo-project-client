@@ -38,7 +38,10 @@ function App() {
           />
           <Route path="lobby" element={authUser && <Lobby user={authUser} />} />
           <Route path="my-games" element={<h1>My Games</h1>} />
-          <Route path="game/:id" element={authUser && <Game />} />
+          <Route
+            path="game/:id"
+            element={authUser && <Game user={authUser} />}
+          />
         </Route>
       </Routes>
     </>

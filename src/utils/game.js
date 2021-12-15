@@ -1,3 +1,10 @@
+const initialBoard = [
+  [null, "red", null, "red"],
+  [null, null, null, null],
+  [null, null, null, null],
+  ["black", null, "black", null],
+];
+
 function getValidMoves(board, selectedPiece) {
   console.log({ board, selectedPiece });
   if (!selectedPiece) {
@@ -161,13 +168,11 @@ function getValidMovesDownRight(board, selectedPiece) {
   return validMoves;
 }
 
-function applyMovesFromString(initialBoard, movesAsString) {
-  const moves = getMovesFromString(movesAsString);
-
-  return applyMoves(initialBoard, moves);
-}
-
 function getMovesFromString(moves) {
+  if (!moves) {
+    return [];
+  }
+
   return moves.split("|").map((move, i) => {
     const [from, to] = move.split("-");
     const [fromX, fromY] = from.split(",").map((num) => parseInt(num));
@@ -227,4 +232,9 @@ function cloneBoard(initialBoard) {
   return initialBoard.map((row) => [...row]);
 }
 
-module.exports = { getValidMoves, applyMovesFromString, getMovesFromString };
+module.exports = {
+  initialBoard,
+  getValidMoves,
+  applyMoves,
+  getMovesFromString,
+};

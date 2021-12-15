@@ -10,7 +10,7 @@ const initialBoard = [
 ];
 
 export default function GameBoard({ players, gameId, playerColor }) {
-  console.log("Inside GameBoard: ", { players });
+  console.log("Inside GameBoard: ", { players, gameId, playerColor });
   const token = localStorage.getItem("token");
   const [board, setBoard] = useState(initialBoard);
   const [selectedPiece, setSelectedPiece] = useState(null);
@@ -76,7 +76,11 @@ export default function GameBoard({ players, gameId, playerColor }) {
 
   function buildBoard() {
     const boardRows = board.map((row, index) => buildRow(row, index));
-    return <div className="board">{boardRows}</div>;
+    return (
+      <div className={`board ${playerColor === "red" && "rotate"}`}>
+        {boardRows}
+      </div>
+    );
   }
 
   function drawPiece(square, rowIndex, colIndex) {

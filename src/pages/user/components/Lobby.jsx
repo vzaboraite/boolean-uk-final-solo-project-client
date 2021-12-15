@@ -12,33 +12,36 @@ export default function Lobby({ user }) {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const fetchOptions = {
-      method: "GET",
-      headers: {
-        authorization: token,
-      },
-    };
+    const intervalId = setInterval(() => {
+      const fetchOptions = {
+        method: "GET",
+        headers: {
+          authorization: token,
+        },
+      };
 
-    fetch(`${apiUrl}/games`, fetchOptions)
-      .then((res) => {
-        if (res.status === 401) {
-          throw Error("Not Authorized");
-        } else if (res.status !== 200) {
-          throw Error("[500 ERROR] Internal Server Error");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("INSIDE LOBBY");
-        console.log({ GAMES: data });
-        const games = data.games;
-        if (games) {
-          setGames(games);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      fetch(`${apiUrl}/games`, fetchOptions)
+        .then((res) => {
+          if (res.status === 401) {
+            throw Error("Not Authorized");
+          } else if (res.status !== 200) {
+            throw Error("[500 ERROR] Internal Server Error");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          const games = data.games;
+          if (games) {
+            setGames(games);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }, 2000);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [token]);
 
   const handleJoinGame = (gameId) => {
@@ -102,7 +105,6 @@ export default function Lobby({ user }) {
       <button onClick={handleCreateGame}>Create Game</button>
       <ul>
         {gamesToRender.map((game, index) => {
-          console.log({ game });
           return (
             <li key={index}>
               #{game.id} -- {game.gameStatus} --

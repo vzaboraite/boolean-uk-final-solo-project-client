@@ -47,6 +47,14 @@ export default function Game({ user }) {
   }, [currentGame, user]);
 
   useEffect(() => {
+    if (
+      currentGame !== null &&
+      currentGame.gameStatus !== "in-progress" &&
+      currentGame.gameStatus !== "waiting"
+    ) {
+      return;
+    }
+    const intervalId = setInterval(() => {
       fetch(`${apiUrl}/games/${id}`, {
         method: "GET",
         headers: {
@@ -70,7 +78,11 @@ export default function Game({ user }) {
         .catch((error) => {
           console.error(error);
         });
-  }, [id, token]);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [currentGame, id, token, handleGameUpdate]);
 
   if (currentGame === null) {

@@ -98,6 +98,33 @@ export default function Game({ user }) {
   const playerOne = currentGame.users[0];
   const playerTwo = currentGame.users[1];
 
+  function getStatusNotification() {
+    let notification = "";
+    const status = currentGame.gameStatus;
+
+    switch (status) {
+      case "red-win":
+        notification =
+          user.id === playerOne.id
+            ? "You Won!"
+            : "Red is victorious! You lost...";
+        break;
+      case "black-win":
+        notification =
+          user.id === playerTwo.id
+            ? "You Won!"
+            : "Black is victorious! You lost...";
+        break;
+      case "draw":
+        notification = "It's a Draw!";
+        break;
+      default:
+        return "";
+    }
+
+    return notification;
+  }
+
   return (
     <>
       <div>
@@ -119,6 +146,8 @@ export default function Game({ user }) {
         allowToMove={currentGame.users.length === 2}
         handleGameUpdate={handleGameUpdate}
       />
+
+      <h2>{getStatusNotification()}</h2>
     </>
   );
 }

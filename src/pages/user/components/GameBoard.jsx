@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { apiUrl } from "../../../utils/constants";
-import { applyMovesFromString, getValidMoves } from "../../../utils/game";
+import {
+  applyMovesFromString,
+  getMovesFromString,
+  getValidMoves,
+} from "../../../utils/game";
 
 const initialBoard = [
   [null, "red", null, "red"],
@@ -12,9 +16,13 @@ const initialBoard = [
 export default function GameBoard({ players, gameId, playerColor }) {
   console.log("Inside GameBoard: ", { players, gameId, playerColor });
   const token = localStorage.getItem("token");
+
   const [board, setBoard] = useState(initialBoard);
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
+  const [moves, setMoves] = useState([]);
+  const nextMove = moves.length % 2 === 0 ? "red" : "black";
+  console.log({ nextMove });
 
   // derived state for valid moves
   const validMoves = getValidMoves(board, selectedPiece);
@@ -42,12 +50,15 @@ export default function GameBoard({ players, gameId, playerColor }) {
         console.log("INSIDE GameBoard getGAme: ", data);
         const { moves } = data.game;
         const board = applyMovesFromString(initialBoard, moves);
+        setMoves(getMovesFromString(moves));
         setBoard(board);
       })
       .catch((error) => {
         console.error(error);
       });
   }, [gameId, token]);
+
+  console.log({ moves });
 
   function buildRow(row, index) {
     const rowSquares = row.map((square, i) => {
@@ -96,6 +107,7 @@ export default function GameBoard({ players, gameId, playerColor }) {
 
   function handleClick(pieceData) {
     gameStarted &&
+      nextMove === playerColor &&
       playerColor === pieceData.color &&
       setSelectedPiece(pieceData);
   }

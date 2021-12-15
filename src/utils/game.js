@@ -227,4 +227,4 @@ function cloneBoard(initialBoard) {
   return initialBoard.map((row) => [...row]);
 }
 
-module.exports = { getValidMoves, applyMovesFromString };
+module.exports = { getValidMoves, applyMovesFromString, getMovesFromString };

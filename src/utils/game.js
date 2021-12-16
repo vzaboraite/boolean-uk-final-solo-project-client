@@ -232,9 +232,4 @@ function cloneBoard(initialBoard) {
   return initialBoard.map((row) => [...row]);
 }
 
-module.exports = {
-  initialBoard,
-  getValidMoves,
-  applyMoves,
-  getMovesFromString,
-};
+export { initialBoard, getValidMoves, applyMoves, getMovesFromString };

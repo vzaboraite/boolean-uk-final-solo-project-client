@@ -1,22 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { apiUrl } from "../../../utils/constants";
 import { getValidMoves } from "../../../utils/game";
 
-const initialBoard = [
-  [null, "red", null, "red"],
-  [null, null, null, null],
-  [null, null, null, null],
-  ["black", null, "black", null],
-];
+export default function GameBoard({
+  gameId,
+  playerColor,
+  board,
+  nextMove,
+  allowToMove,
+  handleGameUpdate,
+}) {
+  const token = localStorage.getItem("token");
 
-export default function GameBoard({ players }) {
-  const [board, setBoard] = useState(initialBoard);
   const [selectedPiece, setSelectedPiece] = useState(null);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [validMoves, setValidMoves] = useState(null);
 
-  useEffect(() => {
-    setGameStarted(players.length === 2);
-  }, [players]);
+  // derived state for valid moves
+  const validMoves = getValidMoves(board, selectedPiece);
 
   function buildRow(row, index) {
     const rowSquares = row.map((square, i) => {
@@ -28,7 +27,7 @@ export default function GameBoard({ players }) {
             isWhiteSquare ? "sq-color__white" : "sq-color__grey"
           }`}
           onClick={() => {
-            gameStarted && !square && selectedPiece && handleMove(index, i);
+            allowToMove && !square && selectedPiece && handleMove(index, i);
           }}
         >
           {square && drawPiece(square, index, i)}
@@ -45,7 +44,11 @@ export default function GameBoard({ players }) {
 
   function buildBoard() {
     const boardRows = board.map((row, index) => buildRow(row, index));
-    return <div className="board">{boardRows}</div>;
+    return (
+      <div className={`board ${playerColor === "red" && "rotate"}`}>
+        {boardRows}
+      </div>
+    );
   }
 
   function drawPiece(square, rowIndex, colIndex) {
@@ -60,16 +63,15 @@ export default function GameBoard({ players }) {
   }
 
   function handleClick(pieceData) {
-    gameStarted &&
-      setSelectedPiece(pieceData) &&
-      setValidMoves(getValidMoves(board, pieceData));
+    allowToMove &&
+      nextMove === playerColor &&
+      playerColor === pieceData.color &&
+      setSelectedPiece(pieceData);
   }
 
   function handleMove(toRowIndex, toColIndex) {
     const fromRowIndex = selectedPiece.rowIndex;
     const fromColIndex = selectedPiece.colIndex;
-
-    const validMoves = getValidMoves(board, selectedPiece);
 
     const foundMove = validMoves.find(
       (move) => move.toRowIndex === toRowIndex && move.toColIndex === toColIndex
@@ -79,30 +81,40 @@ export default function GameBoard({ players }) {
       return;
     }
 
-    const updatedBoard = board.map((row, rowIndex) => {
-      return row.map((square, colIndex) => {
-        if (fromRowIndex === rowIndex && fromColIndex === colIndex) {
-          return null;
-        }
+    if (!selectedPiece) {
+      return;
+    }
 
-        if (toRowIndex === rowIndex && toColIndex === colIndex) {
-          return selectedPiece.color;
-        }
+    const fetchOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: token,
+      },
+      body: JSON.stringify({
+        newMove: `${fromColIndex},${fromRowIndex}-${toColIndex},${toRowIndex}`,
+      }),
+    };
 
-        if (
-          foundMove.capturePiece &&
-          foundMove.capturePiece.rowIndex === rowIndex &&
-          foundMove.capturePiece.colIndex === colIndex
-        ) {
-          return null;
+    fetch(`${apiUrl}/games/${gameId}/move-piece`, fetchOptions)
+      .then((res) => {
+        if (res.status === 401) {
+          throw Error("Not Authorized");
+        } else if (res.status !== 200) {
+          throw Error("[500 ERROR] Internal Server Error");
         }
-
-        return square;
+        return res.json();
+      })
+      .then((data) => {
+        const { game } = data;
+        if (game) {
+          handleGameUpdate(game);
+          setSelectedPiece(null);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
       });
-    });
-
-    setBoard(updatedBoard);
-    setSelectedPiece(null);
   }
 
   return <>{buildBoard()}</>;

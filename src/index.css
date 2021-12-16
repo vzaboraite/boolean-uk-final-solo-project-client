@@ -89,6 +89,10 @@ header > nav > ul {
   place-items: center;
 }
 
+.rotate {
+  transform: rotate(180deg);
+}
+
 .sq-color__white {
   background-color: rgb(248, 239, 229);
 }

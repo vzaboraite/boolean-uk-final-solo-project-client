@@ -1,6 +1,15 @@
+const initialBoard = [
+  [null, "red", null, "red"],
+  [null, null, null, null],
+  [null, null, null, null],
+  ["black", null, "black", null],
+];
+
 function getValidMoves(board, selectedPiece) {
   console.log({ board, selectedPiece });
-
+  if (!selectedPiece) {
+    return [];
+  }
   switch (selectedPiece.color) {
     case "red":
       return getValidMovesDown(board, selectedPiece);
@@ -159,4 +168,73 @@ function getValidMovesDownRight(board, selectedPiece) {
   return validMoves;
 }
 
-module.exports = { getValidMoves };
+function getMovesFromString(moves) {
+  if (!moves) {
+    return [];
+  }
+
+  return moves.split("|").map((move, i) => {
+    const [from, to] = move.split("-");
+    const [fromX, fromY] = from.split(",").map((num) => parseInt(num));
+    const [toX, toY] = to.split(",").map((num) => parseInt(num));
+
+    const isCapture = Math.abs(fromX - toX) === 2;
+    let capturePiece;
+
+    if (isCapture) {
+      const captureX = fromX - toX > 0 ? fromX - 1 : fromX + 1;
+      const captureY = fromY - toY > 0 ? fromY - 1 : fromY + 1;
+      capturePiece = { captureX, captureY };
+    }
+
+    return {
+      fromX,
+      fromY,
+      toX,
+      toY,
+      color: i % 2 === 0 ? "red" : "black",
+      capturePiece,
+    };
+  });
+}
+
+function applyMoves(initialBoard, moves) {
+  let board = cloneBoard(initialBoard);
+
+  moves.forEach((move) => {
+    board = board.map((row, y) => {
+      return row.map((square, x) => {
+        if (move.fromY === y && move.fromX === x) {
+          return null;
+        }
+
+        if (move.toY === y && move.toX === x) {
+          return move.color;
+        }
+
+        if (
+          move.capturePiece &&
+          move.capturePiece.captureY === y &&
+          move.capturePiece.captureX === x
+        ) {
+          return null;
+        }
+
+        return square;
+      });
+    });
+  });
+
+  return board;
+}
+
+function cloneBoard(initialBoard) {
+  return initialBoard.map((row) => [...row]);
+}
+
+module.exports = {
+  initialBoard,
+  getValidMoves,
+  applyMoves,
+  getMovesFromString,
+};

@@ -30,9 +30,9 @@ export default function Header({ authUser, setAuthUser }) {
                 <li>
                   <Link to="/lobby">Lobby</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/my-games">My games</Link>
-                </li>
+                </li> */}
                 <li>
                   <Link to="/" onClick={handleLogout}>
                     Log Out

@@ -38,7 +38,7 @@ export default function Lobby({ user }) {
         .catch((error) => {
           console.error(error);
         });
-    }, 2000);
+    }, 1000);
     return () => {
       clearInterval(intervalId);
     };
@@ -100,25 +100,35 @@ export default function Lobby({ user }) {
   });
 
   return (
-    <main>
-      <p>Welcome, {user.username}</p>
-      <button onClick={handleCreateGame}>Create Game</button>
-      <ul>
-        {gamesToRender.map((game, index) => {
-          return (
-            <li key={index}>
-              #{game.id} -- {game.gameStatus} --
-              <button
-                onClick={() => {
-                  handleJoinGame(game.id);
-                }}
-              >
-                Join game
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </main>
+    <>
+      <h1 className="welcome-header">
+        Welcome, <span className="user-name">✨{user.username}✨</span>
+      </h1>
+      <button onClick={handleCreateGame} className="create-game">
+        CREATE A GAME
+      </button>
+      <table className="lobby">
+        <tbody>
+          {gamesToRender.map((game, index) => {
+            return (
+              <tr key={index}>
+                <td>#{game.id.substring(0, 2)}</td>
+                <td className="player"> 🔴 {game.users[0].user.username}</td>
+                <td className="player">
+                  ⚫
+                  <button
+                    onClick={() => {
+                      handleJoinGame(game.id);
+                    }}
+                  >
+                    JOIN
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 }

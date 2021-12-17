@@ -59,27 +59,31 @@ export default function SignupForm({ setAuthUser }) {
   };
 
   return (
-    <main>
-      <form onSubmit={handleSubmit}>
-        <h2>Sign Up</h2>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          required
-          onChange={handleInputChange}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          required
-          onChange={handleInputChange}
-        />
-        <button type="submit">Submit</button>
-      </form>
-    </main>
+    <>
+      <div className="signup-container">
+        <form className="signup-form" onSubmit={handleSubmit}>
+          <h1>Sign Up</h1>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            onChange={handleInputChange}
+          />
+          <label htmlFor="password" className="padding-top__10">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            onChange={handleInputChange}
+          />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </>
   );
 }

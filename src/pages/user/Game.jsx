@@ -78,7 +78,7 @@ export default function Game({ user }) {
         .catch((error) => {
           console.error(error);
         });
-    }, 1000);
+    }, 700);
 
     return () => {
       clearInterval(intervalId);
@@ -98,21 +98,24 @@ export default function Game({ user }) {
   const playerOne = currentGame.users[0];
   const playerTwo = currentGame.users[1];
 
+  const status = currentGame.gameStatus;
+  const isWaiting = status === "waiting";
+  const inProgress = status === "in-progress";
+
   function getStatusNotification() {
     let notification = "";
-    const status = currentGame.gameStatus;
 
     switch (status) {
       case "red-win":
         notification =
           user.id === playerOne.id
-            ? "You Won!"
+            ? "✨You Won!✨"
             : "Red is victorious! You lost...";
         break;
       case "black-win":
         notification =
           user.id === playerTwo.id
-            ? "You Won!"
+            ? "✨You Won!✨"
             : "Black is victorious! You lost...";
         break;
       case "draw":
@@ -127,27 +130,28 @@ export default function Game({ user }) {
 
   return (
     <>
-      <div>
-        player 1 -
-        {playerOne &&
-          `${playerOne.username} - ${playerOne.color.toLowerCase()}`}
+      <div className={`players ${isWaiting && "align-center"}`}>
+        <div className={inProgress && nextMove === "red" && "players-turn"}>
+          {playerOne && `🔴 ${playerOne.username}`}
+        </div>
+        <div className={inProgress && nextMove === "black" && "players-turn"}>
+          {playerTwo
+            ? `⚫ ${playerTwo.username}`
+            : "Waiting for second player..."}
+        </div>
       </div>
-      <div>
-        player 2 -
-        {playerTwo
-          ? `${playerTwo.username} - ${playerTwo.color.toLowerCase()}`
-          : "Waiting for second player..."}
+      <div className="game-board">
+        <GameBoard
+          gameId={currentGame.id}
+          playerColor={playerColor}
+          board={board}
+          nextMove={nextMove}
+          allowToMove={currentGame.users.length === 2}
+          handleGameUpdate={handleGameUpdate}
+        />
       </div>
-      <GameBoard
-        gameId={currentGame.id}
-        playerColor={playerColor}
-        board={board}
-        nextMove={nextMove}
-        allowToMove={currentGame.users.length === 2}
-        handleGameUpdate={handleGameUpdate}
-      />
 
-      <h2>{getStatusNotification()}</h2>
+      <h2 className="notification">{getStatusNotification()}</h2>
     </>
   );
 }

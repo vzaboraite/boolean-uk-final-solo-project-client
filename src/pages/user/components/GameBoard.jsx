@@ -45,18 +45,32 @@ export default function GameBoard({
   function buildBoard() {
     const boardRows = board.map((row, index) => buildRow(row, index));
     return (
-      <div className={`board ${playerColor === "red" && "rotate"}`}>
+      <div
+        className={`board  ${
+          playerColor === "red" ? "rotate shadow__rotate" : "shadow"
+        }`}
+      >
         {boardRows}
       </div>
     );
   }
 
   function drawPiece(square, rowIndex, colIndex) {
+    let showBorder = false;
+    if (
+      selectedPiece &&
+      selectedPiece.rowIndex === rowIndex &&
+      selectedPiece.colIndex === colIndex
+    ) {
+      showBorder = true;
+    }
+
     return (
       <div
         className={`piece ${
           square !== null && (square === "red" ? "piece__red" : "piece__black")
-        }`}
+        } ${showBorder && "selected"}
+        `}
         onClick={() => handleClick({ rowIndex, colIndex, color: square })}
       ></div>
     );

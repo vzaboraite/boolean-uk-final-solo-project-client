@@ -1,3 +1,4 @@
+/* reset */
 * {
   padding: 0;
   margin: 0;
@@ -13,13 +14,65 @@ a {
   color: inherit;
 }
 
+/* general */
+
 #root {
   height: 100vh;
+  background-color: rgb(206 255 224 / 50%);
 }
+
+.mg__20 {
+  margin: 20px;
+}
+
+.mg-bottom__20 {
+  margin-bottom: 20px;
+}
+
+.padding-top__10 {
+  padding-top: 10px;
+}
+
+.padding__vertical {
+  padding: 10px 0;
+}
+
+.shadow {
+  box-shadow: -5px 5px 10px 0 rgba(0, 0, 0, 35%),
+    -25px 25px 30px 1px rgba(0, 0, 0, 20%), -40px 40px 70px 0 rgba(0, 0, 0, 20%),
+    4px -4px 10px 0 rgba(255, 255, 255, 10%),
+    -3px 3px 4px 0 rgba(126, 126, 126, 20%);
+}
+
+.shadow__rotate {
+  box-shadow: 5px -5px 10px 0 rgba(0, 0, 0, 35%),
+    25px -25px 30px 1px rgba(0, 0, 0, 20%), 40px -40px 70px 0 rgba(0, 0, 0, 20%),
+    -4px 4px 10px 0 rgba(255, 255, 255, 10%),
+    3px -3px 4px 0 rgba(126, 126, 126, 20%);
+}
+
+/* grid styles */
+.justify-items__center {
+  display: grid;
+  justify-items: center;
+  gap: 50px;
+}
+
+.align__start {
+  align-content: flex-start;
+}
+
+.place-items__center {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+}
+
+/* header */
 
 header {
   height: 70px;
-  background-color: rgb(226, 226, 226);
+  background-color: rgb(127 164 140);
   display: grid;
   align-items: center;
   justify-content: end;
@@ -30,6 +83,7 @@ header > nav > ul {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
+  gap: 20px;
 }
 
 .auth-menu {
@@ -45,30 +99,65 @@ header > nav > ul {
 }
 
 .link {
-  width: 100px;
-  padding: 5px 0;
-  border: 1px solid black;
+  width: 100%;
+  padding: 10px 25px;
+  border: none;
+  background-color: rgb(194 230 207);
+  font-family: inherit;
+  font-size: inherit;
   border-radius: 5px;
   display: grid;
   place-items: center;
   cursor: pointer;
+  font-weight: 900;
+  color: #000;
+}
+
+.link:hover,
+.link:focus {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .dropdown-menu {
-  padding-top: 10px;
+  width: 100%;
   position: absolute;
   right: 0;
   top: calc(100% + 0.5rem);
+  padding: 10 px 0;
+  border-radius: 5px;
   opacity: 0;
+  transform: translateY(-10px);
+  background-color: rgb(194 230 207);
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
 .dropdown-menu > li {
-  padding-top: 3px;
+  width: 100%;
+}
+
+.dropdown-menu > li > a {
+  display: inline-block;
+  width: 100%;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.dropdown-menu > li > a:hover {
+  font-weight: 900;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .dropdown > .link:focus + .dropdown-menu {
   opacity: 1;
+  transform: translateY(0px);
 }
+
+.main {
+  min-height: calc(100% - 70px);
+}
+
+/* game board */
 
 .board {
   width: 400px;
@@ -108,10 +197,149 @@ div.piece {
   color: white;
 }
 
+div.piece:hover,
+div.piece.selected {
+  box-shadow: 0 0 0 3px rgba(241, 229, 54, 0.5);
+}
+
 .piece__red {
   background-color: rgb(128, 3, 3);
 }
 
 .piece__black {
   background-color: rgb(22, 21, 21);
+}
+
+/* lobby */
+
+main .welcome-header {
+  margin-top: 30px;
+}
+
+.create-game {
+  padding: 10px 30px;
+  font-size: 20px;
+  border-radius: 5px;
+  border: 1px solid grey;
+}
+
+main .lobby {
+  border-collapse: collapse;
+  font-size: 20px;
+}
+
+main .lobby td {
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  padding: 5px 20px;
+}
+
+main .lobby td.player {
+  min-width: 150px;
+}
+main .lobby td.player button {
+  margin-left: 10px;
+  padding: 3px 15px;
+  font-size: 20px;
+}
+
+/* game */
+
+.players div {
+  font-size: 25px;
+  margin-top: 10px;
+}
+
+.players .players-turn {
+  position: relative;
+}
+
+.players-turn::before {
+  content: "🡆";
+  left: -25px;
+}
+
+.players-turn::after {
+  content: "🡄";
+}
+
+.players-turn::before,
+.players-turn::after {
+  top: -4px;
+  position: absolute;
+  color: rgb(44, 53, 29);
+}
+
+.align-center {
+  text-align: center;
+}
+
+.notification {
+  font-size: 30px;
+}
+
+/* login */
+.main .login-container,
+.main .signup-container {
+  padding: 20px;
+  margin-top: 65px;
+  border: 1px solid grey;
+  display: grid;
+  place-content: center;
+  min-width: 400px;
+  min-height: 300px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+.main .login-form,
+.main .signup-form {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 10px;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.main .login-container h1,
+.main .signup-container h1 {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.main .login-form label,
+.main .signup-form label,
+.main .login-form input,
+.main .signup-form input {
+  font-size: 20px;
+}
+
+.main .login-form label,
+.main .signup-form label {
+  color: rgb(143, 140, 140);
+}
+
+.main .login-form input,
+.main .signup-form input {
+  padding: 4px;
+  border-radius: 2px;
+  border: none;
+  border-bottom: 1px solid grey;
+}
+
+.main .login-form input:hover,
+.main .signup-form input:hover,
+.main .login-form input:focus,
+.main .signup-form input:focus {
+  outline: none;
+  box-shadow: 0 1px 0 0 rgba(12, 83, 27, 0.5);
+}
+
+.main .login-form button,
+.main .signup-form button {
+  margin: 20px 0;
+  border: 1px solid gray;
+  border-radius: 30px;
+  padding: 10px 0px;
+  font-size: 17px;
 }

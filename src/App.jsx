@@ -25,25 +25,30 @@ function App() {
     // TODO: replace h1 elements with components and pages
     <>
       <Header authUser={authUser} setAuthUser={setAuthUser} />
-      <Routes>
-        <Route path="/*">
-          <Route index element={<h1>Home</h1>} />
-          <Route
-            path="signup"
-            element={<SignupForm setAuthUser={setAuthUser} />}
-          />
-          <Route
-            path="login"
-            element={<LoginForm setAuthUser={setAuthUser} />}
-          />
-          <Route path="lobby" element={authUser && <Lobby user={authUser} />} />
-          <Route path="my-games" element={<h1>My Games</h1>} />
-          <Route
-            path="game/:id"
-            element={authUser && <Game user={authUser} />}
-          />
-        </Route>
-      </Routes>
+      <main className="main justify-items__center align__start">
+        <Routes>
+          <Route path="/*">
+            <Route index element={<LoginForm setAuthUser={setAuthUser} />} />
+            <Route
+              path="signup"
+              element={<SignupForm setAuthUser={setAuthUser} />}
+            />
+            <Route
+              path="login"
+              element={<LoginForm setAuthUser={setAuthUser} />}
+            />
+            <Route
+              path="lobby"
+              element={authUser && <Lobby user={authUser} />}
+            />
+            <Route path="my-games" element={<h1>My Games</h1>} />
+            <Route
+              path="game/:id"
+              element={authUser && <Game user={authUser} />}
+            />
+          </Route>
+        </Routes>
+      </main>
     </>
   );
 }

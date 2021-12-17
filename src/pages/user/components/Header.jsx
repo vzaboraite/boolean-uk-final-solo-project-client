@@ -7,39 +7,39 @@ export default function Header({ authUser, setAuthUser }) {
   }
 
   return (
-    <header>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
+    <header className="mg-bottom__20">
+      <nav className="mg__20 center">
+        <ul className="place-items__center">
           {!authUser && (
             <div className="auth-menu">
-              <li>
-                <Link to="/signup">Sign Up</Link>
-              </li>
-              <li>
-                <Link to="/login">Log In</Link>
-              </li>
+              <Link to="/signup" className="link">
+                Sign Up
+              </Link>
+              <Link to="/login" className="link">
+                Log In
+              </Link>
             </div>
           )}
           {authUser && (
-            <div className="dropdown">
-              <button className="link">{authUser.username}</button>
-              <div className="dropdown-menu">
-                <li>
-                  <Link to="/lobby">Lobby</Link>
-                </li>
-                {/* <li>
-                  <Link to="/my-games">My games</Link>
-                </li> */}
-                <li>
-                  <Link to="/" onClick={handleLogout}>
-                    Log Out
-                  </Link>
-                </li>
+            <>
+              <Link to="/lobby" className="link">
+                Lobby
+              </Link>
+              <div className="dropdown">
+                <button className="link">{authUser.username}</button>
+                <div className="dropdown-menu place-items__center">
+                  <li>
+                    <Link
+                      to="/"
+                      onClick={handleLogout}
+                      className="padding__vertical"
+                    >
+                      Log Out
+                    </Link>
+                  </li>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </ul>
       </nav>

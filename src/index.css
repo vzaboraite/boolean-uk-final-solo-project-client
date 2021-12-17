@@ -255,12 +255,12 @@ main .lobby td.player button {
 }
 
 .players-turn::before {
-  content: "➡";
+  content: "⇨";
   left: -25px;
 }
 
 .players-turn::after {
-  content: "⬅";
+  content: "⇦";
   right: -25px;
 }
 
@@ -269,6 +269,7 @@ main .lobby td.player button {
   top: 0;
   position: absolute;
   color: rgb(44, 53, 29);
+  font-weight: 900;
 }
 
 .align-center {

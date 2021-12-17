@@ -255,17 +255,18 @@ main .lobby td.player button {
 }
 
 .players-turn::before {
-  content: "🡆";
+  content: "➡";
   left: -25px;
 }
 
 .players-turn::after {
-  content: "🡄";
+  content: "⬅";
+  right: -25px;
 }
 
 .players-turn::before,
 .players-turn::after {
-  top: -4px;
+  top: 0;
   position: absolute;
   color: rgb(44, 53, 29);
 }

@@ -38,7 +38,7 @@ export default function Lobby({ user }) {
         .catch((error) => {
           console.error(error);
         });
-    }, 2000);
+    }, 1000);
     return () => {
       clearInterval(intervalId);
     };

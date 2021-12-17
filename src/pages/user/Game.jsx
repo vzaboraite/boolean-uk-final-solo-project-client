@@ -78,7 +78,7 @@ export default function Game({ user }) {
         .catch((error) => {
           console.error(error);
         });
-    }, 1000);
+    }, 700);
 
     return () => {
       clearInterval(intervalId);

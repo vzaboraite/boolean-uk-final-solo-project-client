@@ -1,6 +1,7 @@
 import jwtDecode from "jwt-decode";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { apiUrl } from "../../utils/constants";
 
 export default function SignupForm({ setAuthUser }) {
@@ -84,6 +85,7 @@ export default function SignupForm({ setAuthUser }) {
           <button type="submit">Submit</button>
         </form>
       </div>
+      <Link to="/login">Already have an account? Log In</Link>
     </>
   );
 }

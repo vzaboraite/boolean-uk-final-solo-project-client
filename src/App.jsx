@@ -28,7 +28,7 @@ function App() {
       <main className="main justify-items__center align__start">
         <Routes>
           <Route path="/*">
-            <Route index element={<LoginForm setAuthUser={setAuthUser} />} />
+            <Route index element={<SignupForm setAuthUser={setAuthUser} />} />
             <Route
               path="signup"
               element={<SignupForm setAuthUser={setAuthUser} />}

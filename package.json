@@ -1,6 +1,5 @@
 {
   "name": "boolean-uk-final-solo-project-client",
-  "proxy": "http://localhost:3030",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

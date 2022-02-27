@@ -38,6 +38,9 @@ export default function SignupForm({ setAuthUser }) {
       .then((res) => {
         if (res.status === 400) {
           throw Error("Missing information!");
+        } else if (res.status === 409) {
+          alert("Username is taken!");
+          throw Error("Username is taken!");
         } else if (res.status !== 201) {
           throw Error("[500 ERROR] Internal Server Error");
         }
